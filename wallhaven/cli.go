@@ -18,10 +18,6 @@ func search(images ImagesResponse) (string, error) {
 		return "", fmt.Errorf("No collections from this user.")
 	}
 
-	if images.Meta.LastPage > page {
-		selections = append(selections, "Next page -->")
-	}
-
 	if page > 1 {
 		selections = append(selections, "Previous page <--")
 	}
@@ -29,6 +25,10 @@ func search(images ImagesResponse) (string, error) {
 	for _, v := range images.Images {
 		preview := fmt.Sprintf("%v (%v)", v.Resolution, v.ImageURL)
 		selections = append(selections, preview)
+	}
+
+	if images.Meta.LastPage > page {
+		selections = append(selections, "Next page -->")
 	}
 
 	selection, err := ShowSelection(selections, true)
